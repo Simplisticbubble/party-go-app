@@ -1,4 +1,4 @@
-module github.com/go-party-apparty-go-app
+module github.com/Simplisticbubble/party-go-app
 
 go 1.22.4
 
