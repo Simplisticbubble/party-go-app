@@ -3,12 +3,15 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/joho/godotenv"
 )
 
 type Todo struct {
-	ID        int    `json:"id"`
+	ID        int    `json:"_id"`
 	Completed bool   `json:"completed"`
 	Body      string `json:"body"`
 }
@@ -16,6 +19,18 @@ type Todo struct {
 func main() {
 	fmt.Println("Hello World")
 	app := fiber.New()
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:5173",
+		AllowHeaders: "Origin,Content-Type,Accept",
+	}))
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("error loading .env file")
+	}
+	PORT := os.Getenv("PORT")
+
 	todos := []Todo{}
 
 	app.Get("/api/todos", func(c *fiber.Ctx) error {
@@ -61,5 +76,5 @@ func main() {
 		}
 		return c.Status(404).JSON(fiber.Map{"error": "todo not found"})
 	})
-	log.Fatal(app.Listen(":4000"))
+	log.Fatal(app.Listen(":" + PORT))
 }
