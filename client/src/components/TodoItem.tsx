@@ -8,8 +8,42 @@ import { BASE_URL } from "../App";
 import { IconContext } from 'react-icons';
 import { PiCatFill } from "react-icons/pi";
 
+
 const TodoItem = ({ todo }: { todo: Todo }) => {
-    const queryClient = useQueryClient();
+	const queryClient = useQueryClient();
+  const { mutate: updateTodoColour } = useMutation({
+    mutationKey: ["updateTodoColour"],
+    mutationFn: async (newColour: string) => {
+      try {
+        const res = await fetch(`${BASE_URL}/todos/${todo._id}`, {
+          method: "PATCH",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ colour: newColour }),
+        });
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+        return res.json();
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const colour = e.dataTransfer.getData('colour');
+	console.log("colour: " + colour)
+    updateTodoColour(colour)
+    }
+  
+	
     const {mutate:updateTodo, isPending:isUpdating} = useMutation({
         mutationKey: ["updateTodo"],
         mutationFn:async()=>{
@@ -23,6 +57,9 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
 			try {
 				const res = await fetch(BASE_URL + `/todos/${todo._id}`, {
 					method: "PATCH",
+					headers: {
+						'Content-Type': 'application/json',
+					},
 					body: JSON.stringify({ completed: newState }), // Send the new state in the request body
 				});
 				const data = await res.json();
@@ -60,11 +97,13 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
     })
 	return (
 		<Flex gap={2} alignItems={"center"}>
+			<div onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
 				<IconContext.Provider value={{ color: todo.colour, size: '30px' }}>
                 <div>
                     <PiCatFill/>
                 </div>
                 </IconContext.Provider>
+			</div>
 			<Flex
 				flex={1}
 				alignItems={"center"}

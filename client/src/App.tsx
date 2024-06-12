@@ -4,6 +4,7 @@ import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 import UserForm from './components/UserForm'
 import UserList from './components/UserList'
+import { DragDropProvider } from './components/DragDropContext'
 
 
 export const BASE_URL = "http://localhost:4000/api";
@@ -12,6 +13,7 @@ export const BASE_URL = "http://localhost:4000/api";
 
 function App() {
   return (
+    <DragDropProvider>
     <Stack>
       <Navbar/>
       <Grid templateColumns="repeat(3, 1fr)" gap={6}>
@@ -32,6 +34,7 @@ function App() {
         
       </Grid>
     </Stack>
+    </DragDropProvider>
   )
 }
 

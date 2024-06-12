@@ -63,10 +63,21 @@ func main() {
 	//Update a Todo
 	app.Patch("/api/todos/:id", func(c *fiber.Ctx) error {
 		id := c.Params("id")
-
+		if err != nil {
+			return c.Status(400).JSON(fiber.Map{"error": "Invalid todo ID"})
+		}
+		var updateRequest struct {
+			Completed bool   `json:"completed"`
+			Colour    string `json:"colour"`
+		}
+		if err := c.BodyParser(&updateRequest); err != nil {
+			return c.Status(400).JSON(fiber.Map{"error": "Invalid request body"})
+		}
 		for i, todo := range todos {
 			if fmt.Sprint(todo.ID) == id {
-				todos[i].Completed = !todos[i].Completed
+				todos[i].Completed = updateRequest.Completed
+				todos[i].Colour = updateRequest.Colour
+
 				return c.Status(200).JSON(todos[i])
 			}
 		}

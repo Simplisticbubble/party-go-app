@@ -1,7 +1,7 @@
 import { Flex, Spinner, Stack, Text } from "@chakra-ui/react";
-
 import { useQueries } from "@tanstack/react-query";
 import TodoUser from "./UserItem";
+
 
 export type Todo = {
     _id: number;
@@ -15,6 +15,7 @@ export type User = {
 }
 
 const UserList = () => {
+    
     const result = useQueries({
 		queries: [
 			{

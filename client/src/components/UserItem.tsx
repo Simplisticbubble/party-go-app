@@ -6,7 +6,14 @@ import { BASE_URL } from "../App";
 import { useMutation, useQueryClient, } from "@tanstack/react-query";
 import { MdDelete } from "react-icons/md";
 
-const TodoUser = ({ user }: { user: User }) => {
+
+
+const UserItem = ({ user }: { user: User }) => {
+
+    
+	const handleDragStart = (e: React.DragEvent, colour: string) => {
+		e.dataTransfer.setData("colour", colour)
+	}
 	const queryClient = useQueryClient();
 	const {mutate:deleteTodo, isPending:isDeleting} = useMutation({
         mutationKey: ["deleteUser"],
@@ -40,17 +47,20 @@ const TodoUser = ({ user }: { user: User }) => {
 				borderRadius={"lg"}
 				justifyContent={"space-between"}
 			>
+				<div draggable onDragStart={(e) => handleDragStart(e, user.colour)}>
                 <IconContext.Provider value={{ color: user.colour, size: '50px' }}>
                 <div>
                     <PiCatFill/>
                 </div>
                 </IconContext.Provider>
+				</div>
 				<Text
 					color={ "green.200"}
 				>
 					{user.name}
 				</Text>
 			</Flex>
+			
 			<Box color={"red.500"} cursor={"pointer"} onClick={() => deleteTodo()}>
                     {!isDeleting && <MdDelete size={25}/>}
                     {isDeleting && <Spinner size={"sm"}/>}
@@ -59,4 +69,4 @@ const TodoUser = ({ user }: { user: User }) => {
 		</Flex>
 	);
 };
-export default TodoUser;
+export default UserItem;

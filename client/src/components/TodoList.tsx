@@ -2,7 +2,7 @@ import { Flex, Spinner, Stack, Text } from "@chakra-ui/react";
 
 import TodoItem from "./TodoItem";
 import { useQueries } from "@tanstack/react-query";
-import TodoUser from "./UserItem";
+
 
 export type Todo = {
     _id: number;
@@ -17,6 +17,7 @@ export type User = {
 }
 
 const TodoList = () => {
+
     const result = useQueries({
 		queries: [
 			{
@@ -53,13 +54,10 @@ const TodoList = () => {
 		]
     })
 	const todos = result[0].data;
-	console.log(todos);
     const isLoadingTodos = result[0].isLoading;
-	console.log(isLoadingTodos);
-    const users = result[1]?.data;
-	console.log(users);
-    const isLoadingUsers = result[1].isLoading;
-	console.log(isLoadingUsers);
+    // const users = result[1]?.data;
+    // const isLoadingUsers = result[1].isLoading;
+
 	return (
 		<>
 			<Text fontSize={"4xl"} textTransform={"uppercase"} fontWeight={"bold"} textAlign={"center"} my={2}>
@@ -82,6 +80,7 @@ const TodoList = () => {
 				{todos?.map((todo: Todo) => (
 					<TodoItem key={todo._id} todo={todo} />
 				))}
+				
 			</Stack>
 		</>
 	);
