@@ -19,14 +19,14 @@ export default function Navbar() {
 						<img src='/react.png' alt='logo' width={50} height={50} />
 						<Text fontSize={"40"}>+</Text>
 						<img src='/go.png' alt='logo' width={40} height={40} />
-						<Text fontSize={"40"}>=</Text>
-						<img src='/explode.png' alt='logo' width={50} height={50} />
+						<Text fontSize={"40"} fontWeight={500}>= PARTY!!!</Text>
+						{/* <img src='/explode.png' alt='logo' width={50} height={50} /> */}
 					</Flex>
 
 					{/* RIGHT SIDE */}
 					<Flex alignItems={"center"} gap={3}>
 						<Text fontSize={"lg"} fontWeight={500}>
-							Daily Tasks
+							Party Tasks
 						</Text>
 						{/* Toggle Color Mode */}
 						<Button onClick={toggleColorMode}>

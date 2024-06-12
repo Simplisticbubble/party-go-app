@@ -8,6 +8,7 @@ export type Todo = {
     _id: number;
     body: string;
     completed: boolean;
+	colour: string
 };
 export type User = {
 	user_id: number;

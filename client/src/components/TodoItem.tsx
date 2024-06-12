@@ -5,6 +5,8 @@ import { MdDelete } from "react-icons/md";
 import { Todo } from "./TodoList";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BASE_URL } from "../App";
+import { IconContext } from 'react-icons';
+import { PiCatFill } from "react-icons/pi";
 
 const TodoItem = ({ todo }: { todo: Todo }) => {
     const queryClient = useQueryClient();
@@ -58,6 +60,11 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
     })
 	return (
 		<Flex gap={2} alignItems={"center"}>
+				<IconContext.Provider value={{ color: todo.colour, size: '30px' }}>
+                <div>
+                    <PiCatFill/>
+                </div>
+                </IconContext.Provider>
 			<Flex
 				flex={1}
 				alignItems={"center"}

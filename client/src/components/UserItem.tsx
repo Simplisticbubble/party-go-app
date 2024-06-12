@@ -1,11 +1,33 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
 import { IconContext } from 'react-icons';
-import { FaBeer } from 'react-icons/fa';
+import { PiCatFill } from "react-icons/pi";
 import { User } from "./TodoList";
-
+import { BASE_URL } from "../App";
+import { useMutation, useQueryClient, } from "@tanstack/react-query";
+import { MdDelete } from "react-icons/md";
 
 const TodoUser = ({ user }: { user: User }) => {
-   
+	const queryClient = useQueryClient();
+	const {mutate:deleteTodo, isPending:isDeleting} = useMutation({
+        mutationKey: ["deleteUser"],
+        mutationFn:async()=>{
+            try{
+                const res = await fetch(BASE_URL + `/users/${user.user_id}`,{
+                    method:"DELETE",
+                })
+                const data = await res.json()
+                if(!res.ok){
+                    throw new Error(data.error || "Something went wrong");
+                }
+                return data
+            }catch (error){
+                console.log(error);
+            }
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey:["users"]})
+        }
+    })
 
 	return (
 		<Flex gap={2} alignItems={"center"}>
@@ -20,7 +42,7 @@ const TodoUser = ({ user }: { user: User }) => {
 			>
                 <IconContext.Provider value={{ color: user.colour, size: '50px' }}>
                 <div>
-                    <FaBeer />
+                    <PiCatFill/>
                 </div>
                 </IconContext.Provider>
 				<Text
@@ -29,6 +51,11 @@ const TodoUser = ({ user }: { user: User }) => {
 					{user.name}
 				</Text>
 			</Flex>
+			<Box color={"red.500"} cursor={"pointer"} onClick={() => deleteTodo()}>
+                    {!isDeleting && <MdDelete size={25}/>}
+                    {isDeleting && <Spinner size={"sm"}/>}
+					
+				</Box>
 		</Flex>
 	);
 };

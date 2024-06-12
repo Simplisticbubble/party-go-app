@@ -17,7 +17,7 @@ function App() {
       <Grid templateColumns="repeat(3, 1fr)" gap={6}>
         {/* User Section */}
         <GridItem colSpan={1}>
-          <Container maxWidth={"sm"} borderWidth="1px" borderColor="gray.200" borderRadius="md" position="fixed" >
+          <Container maxWidth={"20%"} borderWidth="1px" borderRadius="md" position="fixed" left={"10%"} backgroundColor={"gray.900"} paddingBottom={4}>
             <UserForm />
             <UserList />
           </Container>

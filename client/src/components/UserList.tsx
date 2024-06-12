@@ -1,6 +1,5 @@
 import { Flex, Spinner, Stack, Text } from "@chakra-ui/react";
 
-import TodoItem from "./TodoItem";
 import { useQueries } from "@tanstack/react-query";
 import TodoUser from "./UserItem";
 
@@ -61,7 +60,7 @@ const UserList = () => {
 	console.log(isLoadingUsers);
 	return (
 		<>
-			<Text fontSize={"4xl"} textTransform={"uppercase"} fontWeight={"bold"} textAlign={"center"} my={2}>
+			<Text fontSize={"3xl"} textTransform={"uppercase"} fontWeight={"bold"} textAlign={"center"} my={2}>
 				Users
 			</Text>
 			{isLoadingTodos && (
@@ -72,7 +71,7 @@ const UserList = () => {
 			{!isLoadingUsers && users?.length === 0 && (
 				<Stack alignItems={"center"} gap='3'>
 					<Text fontSize={"xl"} textAlign={"center"} color={"gray.500"}>
-						All tasks completed! 🤞
+						No Users Added 🤞
 					</Text>
 					<img src='/go.png' alt='Go logo' width={70} height={70} />
 				</Stack>

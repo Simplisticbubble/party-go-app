@@ -14,6 +14,7 @@ type Todo struct {
 	ID        int    `json:"_id"`
 	Completed bool   `json:"completed"`
 	Body      string `json:"body"`
+	Colour    string `json:"colour"`
 }
 
 type User struct {
