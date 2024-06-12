@@ -16,6 +16,12 @@ type Todo struct {
 	Body      string `json:"body"`
 }
 
+type User struct {
+	ID     int    `json:"user_id"`
+	Name   string `json:"name"`
+	Colour string `json:"colour"`
+}
+
 func main() {
 	fmt.Println("Hello World")
 	app := fiber.New()
@@ -32,6 +38,7 @@ func main() {
 	PORT := os.Getenv("PORT")
 
 	todos := []Todo{}
+	users := []User{}
 
 	app.Get("/api/todos", func(c *fiber.Ctx) error {
 		return c.Status(200).JSON(todos)
@@ -76,5 +83,34 @@ func main() {
 		}
 		return c.Status(404).JSON(fiber.Map{"error": "todo not found"})
 	})
+	//USERS
+	app.Get("/api/users", func(c *fiber.Ctx) error {
+		return c.Status(200).JSON(users)
+	})
+	app.Post("/api/users", func(c *fiber.Ctx) error {
+		user := &User{}
+		if err := c.BodyParser(user); err != nil {
+			return err
+		}
+
+		if user.Name == "" {
+			return c.Status(400).JSON(fiber.Map{"error": "User name is required"})
+		}
+		user.ID = len(users) + 1
+		users = append(users, *user)
+		return c.Status(201).JSON(user)
+	})
+	//Delete a Todo
+	app.Delete("/api/users/:id", func(c *fiber.Ctx) error {
+		id := c.Params("id")
+		for i, user := range users {
+			if fmt.Sprint(user.ID) == id {
+				users = append(users[:i], users[i+1:]...)
+				return c.Status(200).JSON(fiber.Map{"success": "true"})
+			}
+		}
+		return c.Status(404).JSON(fiber.Map{"error": "user not found"})
+	})
+
 	log.Fatal(app.Listen(":" + PORT))
 }

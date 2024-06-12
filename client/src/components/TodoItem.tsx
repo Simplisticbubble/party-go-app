@@ -11,23 +11,30 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
     const {mutate:updateTodo, isPending:isUpdating} = useMutation({
         mutationKey: ["updateTodo"],
         mutationFn:async()=>{
-            if(todo.completed)return alert("Todo is already completed")
-                try{
-                    const res = await fetch(BASE_URL + `/todos/${todo._id}`,{
-                        method:"PATCH",
-                    })
-                    const data = await res.json()
-                    if(!res.ok){
-                        throw new Error(data.error || "Something went wrong");
-                    }
-                    return data
-                }catch (error){
-                    console.log(error);
-                }
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey:["todos"]})
-        }
+            let newState;
+			if (todo.completed) {
+				newState = false; // Mark as uncompleted
+			} else {
+				newState = true; // Mark as completed
+			}
+			// if (todo.completed) return alert("Todo is already completed");
+			try {
+				const res = await fetch(BASE_URL + `/todos/${todo._id}`, {
+					method: "PATCH",
+					body: JSON.stringify({ completed: newState }), // Send the new state in the request body
+				});
+				const data = await res.json();
+				if (!res.ok) {
+					throw new Error(data.error || "Something went wrong");
+				}
+				return data;
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["todos"] });
+		},
     })
     const {mutate:deleteTodo, isPending:isDeleting} = useMutation({
         mutationKey: ["deleteTodo"],
