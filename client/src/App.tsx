@@ -12,12 +12,9 @@ export const BASE_URL = "http://localhost:4000/api";
 
 
 
-
-
 function App() {
-  const [isUserSectionOpen, setIsUserSectionOpen] = useState<boolean>(false);
-  const [newColour, setNewColour] = useState<string>("");
-  const [isFilter, setIsFilter] = useState<boolean>(false);
+  const [isUserSectionOpen, setIsUserSectionOpen] = useState(false);
+  
   const toggleUserSection = () => {
     setIsUserSectionOpen(!isUserSectionOpen);
   };
@@ -34,7 +31,7 @@ function App() {
           {isUserSectionOpen && (
           <Container maxWidth={"20%"} borderWidth="1px" borderRadius="md" position="fixed" left={"10%"} backgroundColor={"gray.900"} paddingBottom={4}>
             <UserForm />
-            <UserList setNewColour={setNewColour} setIsFilter={setIsFilter} isFilter={isFilter}/>
+            <UserList />
           </Container>
           )}
         </GridItem>
@@ -43,7 +40,7 @@ function App() {
         <GridItem colSpan={1}>
           <Container>
             <TodoForm />
-            <TodoList newColour={newColour} isFilter={isFilter}/>
+            <TodoList />
           </Container>
         </GridItem>
         
