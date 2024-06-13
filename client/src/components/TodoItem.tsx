@@ -20,7 +20,7 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ colour: newColour }),
+          body: JSON.stringify({ completed: todo.completed, colour: newColour }),
         });
         if (!res.ok) {
           throw new Error(res.statusText);
@@ -60,7 +60,7 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
 					headers: {
 						'Content-Type': 'application/json',
 					},
-					body: JSON.stringify({ completed: newState }), // Send the new state in the request body
+					body: JSON.stringify({ completed: newState, colour: todo.colour }), // Send the new state in the request body
 				});
 				const data = await res.json();
 				if (!res.ok) {

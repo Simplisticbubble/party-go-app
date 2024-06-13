@@ -61,7 +61,7 @@ const TodoList = () => {
 	return (
 		<>
 			<Text fontSize={"4xl"} textTransform={"uppercase"} fontWeight={"bold"} textAlign={"center"} my={2}>
-				Today's Tasks
+				Party's Tasks
 			</Text>
 			{isLoadingTodos && (
 				<Flex justifyContent={"center"} my={4}>

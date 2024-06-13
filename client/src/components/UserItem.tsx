@@ -48,11 +48,11 @@ const UserItem = ({ user }: { user: User }) => {
 				justifyContent={"space-between"}
 			>
 				<div draggable onDragStart={(e) => handleDragStart(e, user.colour)}>
-                <IconContext.Provider value={{ color: user.colour, size: '50px' }}>
-                <div>
-                    <PiCatFill/>
-                </div>
-                </IconContext.Provider>
+					<IconContext.Provider value={{ color: user.colour, size: '50px' }}>
+					<div>
+						<PiCatFill/>
+					</div>
+                	</IconContext.Provider>
 				</div>
 				<Text
 					color={ "green.200"}

@@ -26,7 +26,7 @@ const UserForm = () => {
             throw new Error(data.error || "Something went wrong");
           }
           setNewUser("");
-          setSelectedColor("#FFFFFF"); // Reset color after successful creation
+          // setSelectedColor("#FFFFFF"); // Reset color after successful creation
           return data;
         } catch (error: any) {
           throw new Error(error);
@@ -53,11 +53,14 @@ const UserForm = () => {
             ref={(input) => input && input.focus()}
           />
           <Select value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
-            <option value="#FFFFFF">White</option>
-            <option value="#000000">Black</option>
-            <option value="#FF0000">Red</option>
-            <option value="#00FF00">Green</option>
-            <option value="#0000FF">Blue</option>
+            <option value="#264653">Black</option>
+            <option value="#e76f51">Red</option>
+            <option value="#F4A261">Orange</option>
+            <option value="#E9C46A">Yellow</option>
+            <option value="#588157">Green</option>
+            <option value="#2a9d8f">Cyan</option>
+            <option value="#8ecae6">Blue</option>
+
           </Select>
           <Button mx={2} type='submit' _active={{ transform: "scale(.97)" }}>
             {isCreating? <Spinner size={"xs"} /> : <IoMdAdd size={30} />}
