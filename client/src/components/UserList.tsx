@@ -1,5 +1,5 @@
-import { Flex, Spinner, Stack, Text } from "@chakra-ui/react";
-import { useQueries } from "@tanstack/react-query";
+import { Stack, Text } from "@chakra-ui/react";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import UserItem from "./UserItem";
 import { BASE_URL } from "../App";
 
@@ -16,49 +16,66 @@ export type User = {
 }
 
 const UserList = () => {
-    
-    const result = useQueries({
-		queries: [
-			{
-				queryKey: ["todos"],
-				queryFn: async()=>{
-					try{
-						const res = await fetch(BASE_URL + "/todos")
-						const data = await res.json()
-						if(!res.ok){
-							throw new Error(data.error || "Something went wrong")
-						}
-						return data || []
-					}catch (error){
-						console.log(error)
-					}
-				}
-			},
-			{
-				queryKey: ["users"],
-				queryFn: async()=>{
-					try{
-						const res = await fetch( BASE_URL + "/users")
-						const data = await res.json()
-						if(!res.ok){
-							throw new Error(data.error || "Something went wrong")
-						}
-						return data || []
-					}catch (error){
-						console.log(error)
-					}
-				}
-			}
-			
-		]
+	const {data:users, isLoading}= useQuery<User[]>({
+        queryKey:["users"],
+
+        queryFn: async () => {
+            try {
+                const res = await fetch(BASE_URL + `/users`)
+                const data = await res.json()
+
+                if(!res.ok){
+                    throw new Error(data.error || "Something went wrong")
+                }
+                return data || []
+            } catch (error){
+                console.log(error)
+            }
+        }
     })
+    
+    // const result = useQueries({
+	// 	queries: [
+	// 		{
+	// 			queryKey: ["users"],
+	// 			queryFn: async()=>{
+	// 				try{
+	// 					const res = await fetch( BASE_URL + "/users")
+	// 					const data = await res.json()
+	// 					if(!res.ok){
+	// 						throw new Error(data.error || "Something went wrong")
+	// 					}
+	// 					return data || []
+	// 				}catch (error){
+	// 					console.log(error)
+	// 				}
+	// 			}
+	// 		},
+	// 		{
+	// 			queryKey: ["todos"],
+	// 			queryFn: async()=>{
+	// 				try{
+	// 					const res = await fetch(BASE_URL + "/todos")
+	// 					const data = await res.json()
+	// 					if(!res.ok){
+	// 						throw new Error(data.error || "Something went wrong")
+	// 					}
+	// 					return data || []
+	// 				}catch (error){
+	// 					console.log(error)
+	// 				}
+	// 			}
+	// 		},
+			
+	// 	]
+    // })
 	// const todos = result[0].data;
 	// console.log(todos);
     // const isLoadingTodos = result[0].isLoading;
 	// console.log(isLoadingTodos);
-    const users = result[1]?.data;
-	console.log(users);
-    const isLoadingUsers = result[1].isLoading;
+    // const users = result[0]?.data;
+	// console.log(users);
+    // const isLoadingUsers = result[0].isLoading;
 	// console.log(isLoadingUsers);
 	return (
 		<>
@@ -70,7 +87,7 @@ const UserList = () => {
 					<Spinner size={"xl"} />
 				</Flex>
 			)} */}
-			{!isLoadingUsers && users?.length === 0 && (
+			{!isLoading && users?.length === 0 && (
 				<Stack alignItems={"center"} gap='3'>
 					<Text fontSize={"xl"} textAlign={"center"} color={"gray.500"}>
 						No Users Added 🤞

@@ -187,7 +187,6 @@ func getUsers(c *fiber.Ctx) error {
 		}
 		users = append(users, user)
 	}
-	fmt.Println(users)
 	return c.JSON(users)
 }
 
