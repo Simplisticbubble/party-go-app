@@ -15,7 +15,7 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
     mutationKey: ["updateTodoColour"],
     mutationFn: async (newColour: string) => {
       try {
-        const res = await fetch(`${BASE_URL}/todos/${todo._id}`, {
+        const res = await fetch(BASE_URL + `/todos/${todo._id}`, {
           method: "PATCH",
           headers: {
             'Content-Type': 'application/json'

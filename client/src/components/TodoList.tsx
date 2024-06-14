@@ -2,6 +2,7 @@ import { Flex, Spinner, Stack, Text } from "@chakra-ui/react";
 
 import TodoItem from "./TodoItem";
 import { useQueries } from "@tanstack/react-query";
+import { BASE_URL } from "../App";
 
 
 export type Todo = {
@@ -11,7 +12,7 @@ export type Todo = {
 	colour: string
 };
 export type User = {
-	user_id: number;
+	_id: number;
 	name: string;
 	colour: string;
 }
@@ -24,7 +25,7 @@ const TodoList = () => {
 				queryKey: ["todos"],
 				queryFn: async()=>{
 					try{
-						const res = await fetch("http://localhost:4000/api/todos")
+						const res = await fetch(BASE_URL + "/todos")
 						const data = await res.json()
 						if(!res.ok){
 							throw new Error(data.error || "Something went wrong")
@@ -39,7 +40,7 @@ const TodoList = () => {
 				queryKey: ["users"],
 				queryFn: async()=>{
 					try{
-						const res = await fetch("http://localhost:4000/api/users")
+						const res = await fetch(BASE_URL + "/todos")
 						const data = await res.json()
 						if(!res.ok){
 							throw new Error(data.error || "Something went wrong")

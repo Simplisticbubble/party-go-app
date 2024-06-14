@@ -19,7 +19,7 @@ const UserItem = ({ user }: { user: User }) => {
         mutationKey: ["deleteUser"],
         mutationFn:async()=>{
             try{
-                const res = await fetch(BASE_URL + `/users/${user.user_id}`,{
+                const res = await fetch(BASE_URL + `/users/${user._id}`,{
                     method:"DELETE",
                 })
                 const data = await res.json()
