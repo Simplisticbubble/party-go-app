@@ -19,6 +19,7 @@ type Todo struct {
 	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	Completed bool               `json:"completed"`
 	Body      string             `json:"body"`
+	Colour    string             `json:"colour"`
 }
 type User struct {
 	ID     primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
@@ -139,13 +140,14 @@ func updateTodos(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid todo ID"})
 	}
 	var updateRequest struct {
-		Completed bool `json:"completed"`
+		Completed bool   `json:"completed"`
+		Colour    string `json:"colour"`
 	}
 	if err := c.BodyParser(&updateRequest); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request body"})
 	}
 	filter := bson.M{"_id": ObjectID}
-	update := bson.M{"$set": bson.M{"completed": updateRequest.Completed}}
+	update := bson.M{"$set": bson.M{"completed": updateRequest.Completed, "colour": updateRequest.Colour}}
 
 	_, err = collection.UpdateOne(context.Background(), filter, update)
 	if err != nil {

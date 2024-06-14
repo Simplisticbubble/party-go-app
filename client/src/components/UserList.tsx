@@ -1,5 +1,5 @@
 import { Stack, Text } from "@chakra-ui/react";
-import { useQueries, useQuery } from "@tanstack/react-query";
+import {useQuery } from "@tanstack/react-query";
 import UserItem from "./UserItem";
 import { BASE_URL } from "../App";
 
@@ -8,6 +8,7 @@ export type Todo = {
     _id: number;
     body: string;
     completed: boolean;
+	colour: string;
 };
 export type User = {
 	_id: number;
