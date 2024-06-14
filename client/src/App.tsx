@@ -8,7 +8,7 @@ import UserList from './components/UserList'
 import { useState } from 'react'
 
 
-export const BASE_URL = "http://localhost:4000/api";
+export const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:4000/api" : "/api"
 
 
 
